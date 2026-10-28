@@ -1,0 +1,14 @@
+  const b=e.target.closest(".opt"); if(!b) return;
+  const kind=b.dataset.k; b.disabled=true;
+  try{
+    await api("support_requests",{method:"POST",headers:{Prefer:"return=minimal"},body:JSON.stringify({kind,table_no:S.user?.table??null,customer_name:S.user?.name??null,mobile:S.user?.mobile??null})});
+    toast(kind==="manager" ? "The manager has been notified and will be with you shortly." : "A waiter is on the way to your table.");
+  }catch(err){ toast("Couldn't reach the restaurant just now. Please wave to a staff member.", true); }
+  b.disabled=false; $("supPanel").classList.remove("open");
+});
+document.addEventListener("click", e=>{ if(!e.target.closest("#supPanel,#supFab")) $("supPanel").classList.remove("open"); });
+
+loadDishes();
+</script>
+</body>
+</html>
